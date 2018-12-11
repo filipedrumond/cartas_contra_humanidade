@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cartas contra humanidade : by SadBoy2k</title>
+    <!--
+      <script src="https://code.jquery.com/jquery-1.x-git.min.js"></script>
+    -->
+    <link rel="stylesheet" href="bootstrap.css" />
+    <style>
+      @font-face {
+        font-family: fonte_pica;
+        src: url(font.otf);
+      }
+      body {
+        background-color: lightgray;
+      }
+      #print {
+        padding: 5px;
+        height: 1189px;
+        width: 840px;
+        background-color: white;
+        z-index: -1;
+        float: left;
+        margin-bottom: 15px;
+      }
+      .carta {
+        margin: 5px;
+        height: 195px;
+        width: 195px;
+        float: left;
+        font-family: fonte_pica;
+        border-radius: 5px;
+        word-break: keep-all;
+        padding: 5px;
+      }
+      #conteudo_carta {
+        font-size: 15px;
+        font-family: fonte_pica;
+      }
+      #carta_text {
+        font-size: 15px;
+        position: absolute;
+        width: 200px;
+      }
+      .preto {
+        border: 1px solid #ecedee;
+        color: #ecedee;
+        background-color: #1a1a1a;
+      }
+      .branco {
+        border: 1px solid #1a1a1a;
+        color: #1a1a1a;
+        background-color: #ecedee;
+      }
+      #controles {
+        position: absolute;
+        margin-left: 80%;
+      }
+      #rodape {
+        font-size: 10px;
+        margin-top: 70%;
+        margin-left: 10%;
+      }
+      #rodape_fix {
+        font-size: 10px;
+      }
+      #tutorial {
+        position: absolute;
+        margin-left: 65%;
+        width: 13% !important;
+        font-family: arial;
+        background-color: lightcoral;
+        padding: 5px;
+      }
+      #creditos {
+        position: absolute;
+        margin-left: 81%;
+        margin-top: 40%;
+        width: 13% !important;
+        font-family: arial;
+        background-color: #1a1a1a;
+        color: white;
+        padding: 5px;
+      }
+      .margem_extra {
+        margin-top: 92% !important;
+      }
+      #resultado {
+        position: absolute;
+        margin-top: 1189px;
+        height: 1189px;
+        width: 840px;
+        background-color: blueviolet;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="print"></div>
+    <div id="tutorial">
+      <h2>TUTORIAL:</h2>
+      <br />
+      <br />
+      Digite o Conteúdo da carta: <br />
+      <br />
+      *(use <.br> sem o '.' para quebrar linhas) <br />
+      <br />
+      *(use &.nbsp sem o '.' para espaços continuos) <br />
+      <br />
+      *(use <.h1> e <./h1> sem o '.' para letras grandes) <br />
+      <br />
+      [Vai de 1 até 5 diminuindo o tamnho da fonte] <br />
+      <br />
+      Selecione o número de carta para pegar [caso de carta preta] <br />
+      <br />
+      Clicke em Salvar Folha para Criar uma foto com a folha para imprimir
+    </div>
+    <div id="creditos">
+      Feito por : Filipe<br />
+      Contato :<br />
+      31 9 8809-9474 filipe.dp@outlook.com<br />
+      Feito de Graça , <br />NÃO VENDER
+    </div>
+    <div id="controles">
+      <button type="button" class="btn btn-dark" id="btnCriar">
+        Criar Carta
+      </button>
+      <button type="button" class="btn btn-success" id="btnScreenshot">
+        Salvar Folha</button
+      >&nbsp <br />
+      <textarea id="conteudo_carta" cols="23" rows="10"></textarea> <br />
+      <input
+        type="number"
+        name="quantidade"
+        id="quantidade"
+        value="1"
+        min="1"
+        max="4"
+      />
+      <input type="radio" name="cor" id="preto" value="preto" /> Preta
+      <input
+        type="radio"
+        name="cor"
+        id="branco"
+        value="branca"
+        checked="true"
+      />
+      Branca <br />
+      <div class="carta preview" id="preview">
+        <div id="carta_text"></div>
+        <div id="rodape"></div>
+        <div id="rodape_fix">&nbsp Cartas Contra Humanidade ®</div>
+      </div>
+    </div>
+    <br /><br />
+    <div id="resultado"></div>
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="html2canvas.js"></script>
+  <script>
+    div_preview = document.getElementById("preview");
+    conteudo_carta = document.getElementById("conteudo_carta");
+    carta_text = document.getElementById("carta_text");
+    quantidade = document.getElementById("quantidade");
+    rodape = document.getElementById("rodape");
+    window.setInterval(function() {
+      cor = "";
+      preto = document.getElementById("preto");
+      branco = document.getElementById("branco");
+      quantidade_ = quantidade.value;
+      icone = "";
+
+      icone_preto = '<img class = "icone" src="icone_preto.png">';
+      icone_branco = '<img class = "icone" src="icone_branco.png">';
+
+      if (branco.checked) {
+        cor = "branco";
+        div_preview.classList.remove("preto");
+        div_preview.classList.add("branco");
+        rodape.classList.add("margem_extra");
+      }
+      if (preto.checked) {
+        cor = "preto";
+        div_preview.classList.remove("branco");
+        div_preview.classList.add("preto");
+        rodape.classList.remove("margem_extra");
+        icone = icone_preto;
+      }
+      rodape.innerHTML = icone + "Pegue : " + quantidade_ + " carta(s)";
+
+      if (branco.checked) {
+        rodape.innerHTML = "";
+      }
+      carta_text.innerHTML = conteudo_carta.value;
+
+      div_nova = div_preview;
+      div_nova.id = "nova";
+    }, 50);
+    function teste() {
+      $(div_nova)
+        .clone()
+        .appendTo("#print");
+    }
+    $(document).ready(function() {
+      $("#btnCriar").on("click", function(e) {
+        teste();
+      });
+      $("#btnScreenshot").on("click", function(e) {
+        html2canvas(document.querySelector("#print")).then(canvas => {
+          document.querySelector("#resultado").appendChild(canvas);
+        });
+      });
+    });
+  </script>
+</html>
