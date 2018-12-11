@@ -25,7 +25,7 @@
         margin-bottom: 15px;
       }
       .carta {
-        margin: 5px;
+        margin: 1px;
         height: 195px;
         width: 195px;
         float: left;
@@ -41,7 +41,8 @@
       #carta_text {
         font-size: 15px;
         position: absolute;
-        width: 200px;
+        word-break: break-all;
+        width: 185px;
       }
       .preto {
         border: 1px solid #ecedee;
@@ -59,8 +60,8 @@
       }
       #rodape {
         font-size: 10px;
-        margin-top: 70%;
-        margin-left: 10%;
+        margin-top: 80% !important;
+        margin-left: 0%;
       }
       #rodape_fix {
         font-size: 10px;
@@ -102,11 +103,6 @@
       <br />
       <br />
       Digite o Conteúdo da carta: <br />
-      <br />
-      *(use <.br> sem o '.' para quebrar linhas) <br />
-      <br />
-      *(use &.nbsp sem o '.' para espaços continuos) <br />
-      <br />
       *(use <.h1> e <./h1> sem o '.' para letras grandes) <br />
       <br />
       [Vai de 1 até 5 diminuindo o tamnho da fonte] <br />
@@ -149,7 +145,7 @@
       <div class="carta preview" id="preview">
         <div id="carta_text"></div>
         <div id="rodape"></div>
-        <div id="rodape_fix">&nbsp Cartas Contra Humanidade ®</div>
+        <div id="rodape_fix"></div>
       </div>
     </div>
     <br /><br />
@@ -178,6 +174,7 @@
         div_preview.classList.remove("preto");
         div_preview.classList.add("branco");
         rodape.classList.add("margem_extra");
+        icone = icone_branco;
       }
       if (preto.checked) {
         cor = "preto";
@@ -186,12 +183,10 @@
         rodape.classList.remove("margem_extra");
         icone = icone_preto;
       }
-      rodape.innerHTML = icone + "Pegue : " + quantidade_ + " carta(s)";
-
-      if (branco.checked) {
-        rodape.innerHTML = "";
-      }
-      carta_text.innerHTML = conteudo_carta.value;
+      rodape.innerHTML = icone + "&nbsp Cards Against Humanity";
+      carta_text.innerHTML = conteudo_carta.value
+        .replace(/(?:\r\n|\r|\n)/g, "<br>")
+        .replace(/ /g, "\u00a0");
 
       div_nova = div_preview;
       div_nova.id = "nova";
